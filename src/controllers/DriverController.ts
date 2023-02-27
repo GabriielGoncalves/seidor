@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { Driver } from 'src/models/entity/Driver';
+import { Driver } from '../models/entity/Driver';
 import IDriver from '../interfaces/IDriver';
 import Database from '../models/database';
 
