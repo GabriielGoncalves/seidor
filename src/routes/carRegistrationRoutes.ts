@@ -4,9 +4,9 @@ import CarController from '../controllers/carController';
 
 const carRegistrationRouter = Router();
 
-carRegistrationRouter.post('/registration', validator, CarController.register);
-carRegistrationRouter.put('/update/:id', CarController.updateCar);
-carRegistrationRouter.delete('/remove/:id', CarController.deleteCar);
+carRegistrationRouter.post('car/register', validator, CarController.register);
+carRegistrationRouter.put('/car/update/:id', CarController.updateCar);
+carRegistrationRouter.delete('/car/delete/:id', CarController.deleteCar);
 carRegistrationRouter.get('/car/:id', CarController.findCarById);
 carRegistrationRouter.get('/car', CarController.listCars);
 
