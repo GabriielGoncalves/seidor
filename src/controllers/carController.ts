@@ -39,18 +39,11 @@ class CarController {
             const car: ICar = req.body;
             const { id } = req.params;
 
-            const carToUpgrade = await db.findCar(id);
-            if (!carToUpgrade) {
-                return res.status(400).json({
-                    msg: 'Unable to find resource with given identifier. Try again',
-                });
-            }
-
-            const result = await db.updateCar(car, carToUpgrade);
+            const result = await db.updateCar(car, id);
 
             return res
                 .status(200)
-                .json({ msg: 'Car information updated successfully' });
+                .json({ msg: 'Car information updated successfully', result });
         } catch (error) {
             throw new Error((error as Error).message);
         }
@@ -104,7 +97,7 @@ class CarController {
                     .json({ msg: 'No cars are registered on our platform' });
             }
 
-            return res.status(400).json({ msg: result });
+            return res.status(200).json({ msg: result });
         } catch (error) {
             throw new Error((error as Error).message);
         }
