@@ -7,7 +7,10 @@ driverRegistrationRouter.post(
     '/driver/register',
     DriverController.registerDriver,
 );
-driverRegistrationRouter.put('/driver/update', DriverController.updateDriver);
+driverRegistrationRouter.put(
+    '/driver/update/:id',
+    DriverController.updateDriver,
+);
 driverRegistrationRouter.delete(
     '/driver/delete/:id',
     DriverController.deleteDriver,
