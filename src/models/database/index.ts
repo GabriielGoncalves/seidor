@@ -3,9 +3,11 @@ import IDriver from '../../interfaces/IDriver';
 import AppDataSource from '../data-source/data-source';
 import { Car } from '../entity/Car';
 import { Driver } from '../entity/Driver';
+import { RentACar } from '../entity/RentACar';
 
 const carRepository = AppDataSource.getRepository(Car);
 const driverRepository = AppDataSource.getRepository(Driver);
+const rentRepository = AppDataSource.getRepository(RentACar);
 
 export default class Database {
     private static db: Database;
@@ -132,6 +134,56 @@ export default class Database {
     async findDrivers(): Promise<Driver[]> {
         try {
             const result = await driverRepository.find();
+            return result;
+        } catch (error) {
+            throw new Error((error as Error).message);
+        }
+    }
+
+    private async findRentByUser(id: string): Promise<RentACar | null> {
+        try {
+            const result = await rentRepository.findOneBy({
+                driver: {
+                    id,
+                },
+            });
+
+            return result;
+        } catch (error) {
+            throw new Error((error as Error).message);
+        }
+    }
+
+    async registerRent(id: string, car: string, description: string) {
+        try {
+            const result = await this.findRentByUser(id);
+            const getCar = await this.findCar(car);
+            const getDriver = await this.findDriver(id);
+
+            if (!result && getCar && getDriver) {
+                const newRent = new RentACar();
+                newRent.description = description;
+                newRent.active = true;
+                newRent.driver = getDriver;
+                newRent.car = getCar;
+                const register = await rentRepository.save(newRent);
+                console.log(register);
+                return result;
+            }
+            return result;
+        } catch (error) {
+            throw new Error((error as Error).message);
+        }
+    }
+
+    async findRents(): Promise<RentACar[]> {
+        try {
+            const result = await rentRepository.find({
+                relations: {
+                    car: true,
+                    driver: true,
+                },
+            });
             return result;
         } catch (error) {
             throw new Error((error as Error).message);
