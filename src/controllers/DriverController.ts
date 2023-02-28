@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import IFilterDriver from '../interfaces/IFilterDriver';
 import IDriver from '../interfaces/IDriver';
 import DriverService from '../services/DriverService';
 
@@ -41,7 +42,10 @@ class DriverController {
     }
 
     async findAll(req: Request, res: Response) {
-        const result = await DriverService.find();
+        const filter: IFilterDriver = req.query;
+
+        const result = await DriverService.find(filter);
+
         return res.status(200).json({ msg: result });
     }
 }

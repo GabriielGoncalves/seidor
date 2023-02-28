@@ -63,7 +63,7 @@ class RentACarService {
             },
         });
 
-        return rents.length === 0 ? 'there are no rentals' : rents;
+        return rents.length === 0 ? 'There are no rentals' : rents;
     }
 }
 

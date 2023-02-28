@@ -1,3 +1,4 @@
+import IFilterCar from '../interfaces/IFilterCar';
 import ICar from '../interfaces/ICar';
 import AppDataSource from '../models/data-source/data-source';
 import { Car } from '../models/entity/Car';
@@ -53,12 +54,37 @@ class CarService {
         return car;
     }
 
-    async findAll(): Promise<Car[] | string> {
-        const car = await this.carRepository.find();
+    async findAll(filters: IFilterCar): Promise<Car[] | string> {
+        const { brand, color } = filters;
 
-        return car.length === 0
-            ? 'There are no registered cars on our platform'
-            : car;
+        if (!brand && !color) {
+            const cars = await this.carRepository.find();
+            return cars.length === 0
+                ? 'There are no registered cars on our platform'
+                : cars;
+        } else if (brand && !color) {
+            const carsByBrand = await this.carRepository.find({
+                where: {
+                    brand,
+                },
+            });
+            return carsByBrand;
+        } else if (brand && color) {
+            const cars = await this.carRepository.find({
+                where: {
+                    brand,
+                    color,
+                },
+            });
+            return cars;
+        } else {
+            const cars = await this.carRepository.find({
+                where: {
+                    color,
+                },
+            });
+            return cars;
+        }
     }
 }
 

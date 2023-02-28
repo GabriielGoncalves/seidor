@@ -1,6 +1,7 @@
 import { Driver } from '../models/entity/Driver';
 import IDriver from '../interfaces/IDriver';
 import AppDataSource from '../models/data-source/data-source';
+import IFilterDriver from '../interfaces/IFilterDriver';
 
 class DriverService {
     private readonly driverRepository = AppDataSource.getRepository(Driver);
@@ -46,12 +47,22 @@ class DriverService {
         return driver;
     }
 
-    async find(): Promise<Driver[] | string> {
+    async find(filter: IFilterDriver): Promise<Driver[] | string> {
+        const { name } = filter;
+
+        if (name) {
+            const driver = await this.driverRepository.find({
+                where: {
+                    name,
+                },
+            });
+            return driver;
+        }
         const drivers = await this.driverRepository.find();
 
         return drivers
-            ? 'There are no registered drivers on our platform'
-            : drivers;
+            ? drivers
+            : 'There are no registered drivers on our platform';
     }
 }
 

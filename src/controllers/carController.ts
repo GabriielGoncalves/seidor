@@ -1,4 +1,5 @@
 import { Response, Request } from 'express';
+import IFilterCar from '../interfaces/IFilterCar';
 import ICar from '../interfaces/ICar';
 import CarService from '../services/CarService';
 
@@ -37,7 +38,8 @@ class CarController {
     }
 
     async find(req: Request, res: Response) {
-        const result = await CarService.findAll();
+        const filters: IFilterCar = req.query;
+        const result = await CarService.findAll(filters);
 
         return res.status(200).json({ msg: result });
     }
