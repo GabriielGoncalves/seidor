@@ -20,9 +20,9 @@ class CarService {
         if (!carToUpgrade) {
             throw new Error('Car does not exists');
         }
-        carToUpgrade.cor = car.cor;
-        carToUpgrade.marca = car.marca;
-        carToUpgrade.placa = car.placa;
+        carToUpgrade.color = car.color;
+        carToUpgrade.brand = car.brand;
+        carToUpgrade.licensePlate = car.licensePlate;
 
         await this.carRepository.save(carToUpgrade);
         return carToUpgrade;
