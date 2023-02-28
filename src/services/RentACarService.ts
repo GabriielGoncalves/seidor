@@ -9,24 +9,29 @@ class RentACarService {
     private readonly driverService = DriverService;
 
     async register(
-        driver: string,
-        car: string,
+        driverId: string,
+        carId: string,
         description: string,
     ): Promise<RentACar> {
-        const rent = await this.findRentByDriver(driver);
-        const getCar = await this.carService.findById(car);
-        const getDriver = await this.driverService.findById(driver);
+        const rentByDriver = await this.findRentByDriver(driverId);
+        const rentByCar = await this.findRentByCar(carId);
+        const getCar = await this.carService.findById(carId);
+        const getDriver = await this.driverService.findById(driverId);
 
-        if (rent?.car.id === getCar.id) {
-            throw new Error(
-                'Oops. The desired car is already rented. We are sorry',
-            );
+        if (rentByDriver && rentByDriver.active === true) {
+            if (rentByDriver?.driver.id === getDriver.id) {
+                throw new Error(
+                    'Oops. The driver cannot rent another car at this time. End your contract and try again.',
+                );
+            }
         }
 
-        if (rent) {
-            throw new Error(
-                'Oops. The driver cannot rent another car at this time. End your contract and try again.',
-            );
+        if (rentByCar && rentByCar.active === true) {
+            if (rentByCar?.car.id === getCar.id) {
+                throw new Error(
+                    'Oops. The desired car is already rented. We are sorry',
+                );
+            }
         }
 
         const newRent = this.rentACarRepository.create({
@@ -44,6 +49,22 @@ class RentACarService {
             where: {
                 driver: {
                     id: idDriver,
+                },
+            },
+            relations: {
+                car: true,
+                driver: true,
+            },
+        });
+
+        return rent ? rent : null;
+    }
+
+    private async findRentByCar(idCar: string): Promise<RentACar | null> {
+        const rent = await this.rentACarRepository.findOne({
+            where: {
+                car: {
+                    id: idCar,
                 },
             },
             relations: {

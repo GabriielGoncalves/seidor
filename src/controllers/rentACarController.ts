@@ -4,10 +4,10 @@ class RentACar {
     constructor() {}
 
     async rentACar(req: Request, res: Response) {
-        const { driver, car } = req.params;
+        const { driverId, carId } = req.params;
         const description: string = req.body.description;
 
-        await RentACarService.register(driver, car, description);
+        await RentACarService.register(driverId, carId, description);
 
         return res.status(201).json({
             msg: 'Rental registration completed successfully',
