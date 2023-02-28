@@ -20,10 +20,10 @@ export class RentACar {
     @Column({ default: '' })
     endRent: string;
 
-    @Column('text')
+    @Column({ type: 'text' })
     description: string;
 
-    @Column({ nullable: false, default: true })
+    @Column({ default: true })
     active: boolean;
 
     @OneToOne(() => Driver)

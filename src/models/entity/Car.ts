@@ -5,12 +5,12 @@ export class Car {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
-    @Column('text')
+    @Column({ type: 'text', nullable: true })
     licensePlate: string;
 
-    @Column('text')
+    @Column({ type: 'text', nullable: true })
     color: string;
 
-    @Column('text')
+    @Column({ type: 'text' })
     brand: string;
 }

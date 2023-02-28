@@ -1,17 +1,6 @@
 version: '3'
 
 services:
-  app:
-    build: .
-    entrypoint: .docker/entrypoint.sh
-    container_name: seidor_app
-    ports:
-      - "3000:3000"
-    volumes:
-      - .:/home/node/app
-    depends_on:
-      - db
-
   db:
     build: .docker/postgres
     container_name: seidor_db
