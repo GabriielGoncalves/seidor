@@ -5,12 +5,12 @@ export class Car {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
-    @Column()
+    @Column('text')
     licensePlate: string;
 
-    @Column()
+    @Column('text')
     color: string;
 
-    @Column()
+    @Column('text')
     brand: string;
 }

@@ -23,6 +23,9 @@ export class RentACar {
     @Column('text')
     description: string;
 
+    @Column({ nullable: false, default: true })
+    active: boolean;
+
     @OneToOne(() => Driver)
     @JoinColumn()
     driver: Driver;

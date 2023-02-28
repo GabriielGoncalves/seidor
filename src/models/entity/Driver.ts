@@ -6,7 +6,7 @@ export class Driver {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
-    @Column()
+    @Column('text')
     name: string;
 
     @OneToOne(() => RentACar)
