@@ -88,4 +88,28 @@ export default class RentACarService {
             ? 'There are no rentals'
             : (rents as RentACar[]);
     }
+
+    async update(rentId: string): Promise<RentACar> {
+        const rent = (await this.rentACarRepository.findOne({
+            where: {
+                id: rentId,
+            },
+            relations: {
+                car: true,
+                driver: true,
+            },
+        })) as RentACar;
+
+        if (rent?.active === false) {
+            throw new Error(
+                'It was not possible to finish the rent, because it is not active',
+            );
+        }
+
+        rent.endRent = `${new Date().toISOString()}`;
+        rent.active = false;
+
+        await this.rentACarRepository.save(rent);
+        return rent as RentACar;
+    }
 }

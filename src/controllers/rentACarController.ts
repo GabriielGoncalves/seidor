@@ -9,10 +9,11 @@ class RentACar {
 
         const service = new RentACarService();
 
-        await service.register(driverId, carId, description);
+        const result = await service.register(driverId, carId, description);
 
         return res.status(201).json({
             msg: 'Rental registration completed successfully',
+            result,
         });
     }
 
@@ -25,7 +26,16 @@ class RentACar {
         });
     }
 
-    teste() {}
+    async finalizeRent(req: Request, res: Response) {
+        const service = new RentACarService();
+        const { rentId } = req.params;
+
+        const result = await service.update(rentId);
+
+        return res
+            .status(200)
+            .json({ msg: 'Successful finished rental', result });
+    }
 }
 
 export default new RentACar();
