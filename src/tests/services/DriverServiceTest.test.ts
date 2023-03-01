@@ -19,9 +19,9 @@ stub.serial(
 
         const mockCreate = sinon
             .stub(instance['driverRepository'], <any>'create')
-            .returns({ name: 'driver name' });
+            .returns('create');
 
-        const result = await instance.register({ name: 'driver' });
+        const result = await instance.register({ name: 'driver name' });
 
         t.true(
             mockCreate.calledOnceWithExactly({
@@ -31,9 +31,9 @@ stub.serial(
 
         t.true(mockSave.calledImmediatelyAfter(mockCreate));
 
-        t.true(mockSave.calledOnceWithExactly({ name: 'driver' }));
+        t.true(mockSave.calledOnceWithExactly('create'));
 
-        t.deepEqual(result, { name: 'driver' } as any);
+        t.deepEqual(result, 'create' as any);
     },
 );
 
