@@ -18,7 +18,7 @@ export default class RentACarService {
         const getCar = await this.carService.findById(carId);
         const getDriver = await this.driverService.findById(driverId);
 
-        if (rentByDriver && rentByDriver.active === true) {
+        if (rentByDriver?.active) {
             if (rentByDriver?.driver.id === getDriver.id) {
                 throw new Error(
                     'Oops. The driver cannot rent another car at this time. End your contract and try again.',
@@ -26,7 +26,7 @@ export default class RentACarService {
             }
         }
 
-        if (rentByCar && rentByCar.active === true) {
+        if (rentByCar?.active) {
             if (rentByCar?.car.id === getCar.id) {
                 throw new Error(
                     'Oops. The desired car is already rented. We are sorry',
@@ -44,7 +44,7 @@ export default class RentACarService {
         return register as RentACar;
     }
 
-    private async findRentByDriver(idDriver: string): Promise<RentACar | null> {
+    public async findRentByDriver(idDriver: string): Promise<RentACar | null> {
         const rent = await this.rentACarRepository.findOne({
             where: {
                 driver: {
@@ -60,7 +60,7 @@ export default class RentACarService {
         return rent ? (rent as RentACar) : null;
     }
 
-    private async findRentByCar(idCar: string): Promise<RentACar | null> {
+    public async findRentByCar(idCar: string): Promise<RentACar | null> {
         const rent = await this.rentACarRepository.findOne({
             where: {
                 car: {

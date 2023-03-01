@@ -1,10 +1,12 @@
 import { Router } from 'express';
+import { validatorDriver } from '../middlewares/expressValidator';
 import DriverController from '../controllers/DriverController';
 
 const driverRegistrationRouter = Router();
 
 driverRegistrationRouter.post(
     '/driver/register',
+    validatorDriver,
     new DriverController().register,
 );
 driverRegistrationRouter.put(
