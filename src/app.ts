@@ -7,8 +7,8 @@ import AppDataSource from './models/data-source/data-source';
 import 'reflect-metadata';
 import 'dotenv/config';
 
-export default class App {
-    private app: express.Application;
+class App {
+    public app: express.Application;
     constructor() {
         this.app = express();
         this.middlewares();
@@ -44,3 +44,4 @@ export default class App {
             });
     }
 }
+export default new App().app;

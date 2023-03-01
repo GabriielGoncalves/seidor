@@ -3,10 +3,19 @@ import DriverController from '../controllers/DriverController';
 
 const driverRegistrationRouter = Router();
 
-driverRegistrationRouter.post('/driver/register', DriverController.register);
-driverRegistrationRouter.put('/driver/update/:id', DriverController.update);
-driverRegistrationRouter.delete('/driver/delete/:id', DriverController.delete);
-driverRegistrationRouter.get('/driver/:id', DriverController.findById);
-driverRegistrationRouter.get('/drivers', DriverController.findAll);
+driverRegistrationRouter.post(
+    '/driver/register',
+    new DriverController().register,
+);
+driverRegistrationRouter.put(
+    '/driver/update/:id',
+    new DriverController().update,
+);
+driverRegistrationRouter.delete(
+    '/driver/delete/:id',
+    new DriverController().delete,
+);
+driverRegistrationRouter.get('/driver/:id', new DriverController().findById);
+driverRegistrationRouter.get('/drivers', new DriverController().findAll);
 
 export default driverRegistrationRouter;

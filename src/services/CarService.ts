@@ -3,13 +3,13 @@ import ICar from '../interfaces/ICar';
 import AppDataSource from '../models/data-source/data-source';
 import { Car } from '../models/entity/Car';
 
-class CarService {
-    private readonly carRepository = AppDataSource.getRepository(Car);
+export default class CarService {
+    private readonly carRepository = AppDataSource.getRepository('Cars');
     async register(car: ICar): Promise<Car> {
         const newCar = this.carRepository.create(car);
 
         await this.carRepository.save(newCar);
-        return newCar;
+        return newCar as Car;
     }
 
     async update(id: string, car: ICar): Promise<Car> {
@@ -26,7 +26,7 @@ class CarService {
         carToUpgrade.licensePlate = car.licensePlate;
 
         await this.carRepository.save(carToUpgrade);
-        return carToUpgrade;
+        return carToUpgrade as Car;
     }
 
     async delete(id: string): Promise<void> {
@@ -51,7 +51,7 @@ class CarService {
             throw new Error('Car does not exists');
         }
 
-        return car;
+        return car as Car;
     }
 
     async findAll(filters: IFilterCar): Promise<Car[] | string> {
@@ -61,14 +61,14 @@ class CarService {
             const cars = await this.carRepository.find();
             return cars.length === 0
                 ? 'There are no registered cars on our platform'
-                : cars;
+                : (cars as Car[]);
         } else if (brand && !color) {
             const carsByBrand = await this.carRepository.find({
                 where: {
                     brand,
                 },
             });
-            return carsByBrand;
+            return carsByBrand as Car[];
         } else if (brand && color) {
             const cars = await this.carRepository.find({
                 where: {
@@ -76,16 +76,14 @@ class CarService {
                     color,
                 },
             });
-            return cars;
+            return cars as Car[];
         } else {
             const cars = await this.carRepository.find({
                 where: {
                     color,
                 },
             });
-            return cars;
+            return cars as Car[];
         }
     }
 }
-
-export default new CarService();

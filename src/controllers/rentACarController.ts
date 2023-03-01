@@ -7,7 +7,9 @@ class RentACar {
         const { driverId, carId } = req.params;
         const description: string = req.body.description;
 
-        await RentACarService.register(driverId, carId, description);
+        const service = new RentACarService();
+
+        await service.register(driverId, carId, description);
 
         return res.status(201).json({
             msg: 'Rental registration completed successfully',
@@ -15,7 +17,9 @@ class RentACar {
     }
 
     async listAllRents(req: Request, res: Response) {
-        const result = await RentACarService.find();
+        const service = new RentACarService();
+
+        const result = await service.find();
         return res.status(200).json({
             msg: result,
         });

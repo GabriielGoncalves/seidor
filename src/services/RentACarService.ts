@@ -3,10 +3,10 @@ import AppDataSource from '../models/data-source/data-source';
 import CarService from './CarService';
 import DriverService from './DriverService';
 
-class RentACarService {
-    private readonly rentACarRepository = AppDataSource.getRepository(RentACar);
-    private readonly carService = CarService;
-    private readonly driverService = DriverService;
+export default class RentACarService {
+    private readonly rentACarRepository = AppDataSource.getRepository('Rent');
+    private readonly carService = new CarService();
+    private readonly driverService = new DriverService();
 
     async register(
         driverId: string,
@@ -41,7 +41,7 @@ class RentACarService {
         });
 
         const register = await this.rentACarRepository.save(newRent);
-        return register;
+        return register as RentACar;
     }
 
     private async findRentByDriver(idDriver: string): Promise<RentACar | null> {
@@ -57,7 +57,7 @@ class RentACarService {
             },
         });
 
-        return rent ? rent : null;
+        return rent ? (rent as RentACar) : null;
     }
 
     private async findRentByCar(idCar: string): Promise<RentACar | null> {
@@ -73,7 +73,7 @@ class RentACarService {
             },
         });
 
-        return rent ? rent : null;
+        return rent ? (rent as RentACar) : null;
     }
 
     async find(): Promise<RentACar[] | string> {
@@ -84,8 +84,8 @@ class RentACarService {
             },
         });
 
-        return rents.length === 0 ? 'There are no rentals' : rents;
+        return rents.length === 0
+            ? 'There are no rentals'
+            : (rents as RentACar[]);
     }
 }
-
-export default new RentACarService();

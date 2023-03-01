@@ -3,10 +3,13 @@ import IFilterCar from '../interfaces/IFilterCar';
 import ICar from '../interfaces/ICar';
 import CarService from '../services/CarService';
 
-class CarController {
+export default class CarController {
     async register(req: Request, res: Response) {
         const car: ICar = req.body;
-        const result = await CarService.register(car);
+
+        const service = new CarService();
+
+        const result = await service.register(car);
 
         return res.status(201).json(result);
     }
@@ -15,7 +18,9 @@ class CarController {
         const car: ICar = req.body;
         const { id } = req.params;
 
-        const result = await CarService.update(id, car);
+        const service = new CarService();
+
+        const result = await service.update(id, car);
 
         return res
             .status(200)
@@ -25,24 +30,30 @@ class CarController {
     async delete(req: Request, res: Response) {
         const { id } = req.params;
 
-        await CarService.delete(id);
+        const service = new CarService();
+
+        await service.delete(id);
 
         return res.status(200).json({ msg: 'Successfully deleted car' });
     }
 
     async findById(req: Request, res: Response) {
         const { id } = req.params;
-        const result = await CarService.findById(id);
+
+        const service = new CarService();
+
+        const result = await service.findById(id);
 
         return res.status(200).json({ msg: result });
     }
 
     async find(req: Request, res: Response) {
         const filters: IFilterCar = req.query;
-        const result = await CarService.findAll(filters);
+
+        const service = new CarService();
+
+        const result = await service.findAll(filters);
 
         return res.status(200).json({ msg: result });
     }
 }
-
-export default new CarController();

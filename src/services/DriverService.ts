@@ -3,15 +3,15 @@ import IDriver from '../interfaces/IDriver';
 import AppDataSource from '../models/data-source/data-source';
 import IFilterDriver from '../interfaces/IFilterDriver';
 
-class DriverService {
-    private readonly driverRepository = AppDataSource.getRepository(Driver);
+export default class DriverService {
+    private readonly driverRepository = AppDataSource.getRepository('Drivers');
 
     async register(driver: IDriver): Promise<Driver> {
         const newDriver = this.driverRepository.create(driver);
 
         await this.driverRepository.save(newDriver);
 
-        return newDriver;
+        return newDriver as Driver;
     }
 
     async update(id: string, driver: IDriver): Promise<Driver> {
@@ -44,7 +44,7 @@ class DriverService {
             throw new Error('Driver does not exists. Try again');
         }
 
-        return driver;
+        return driver as Driver;
     }
 
     async find(filter: IFilterDriver): Promise<Driver[] | string> {
@@ -56,14 +56,12 @@ class DriverService {
                     name,
                 },
             });
-            return driver;
+            return driver as Driver[];
         }
         const drivers = await this.driverRepository.find();
 
-        return drivers
-            ? drivers
+        return drivers.length !== 0
+            ? (drivers as Driver[])
             : 'There are no registered drivers on our platform';
     }
 }
-
-export default new DriverService();

@@ -1,5 +1,5 @@
 import { Response, Request, NextFunction } from 'express';
-import { body, validationResult } from 'express-validator';
+import { body, validationResult, param } from 'express-validator';
 
 export const validator = [
     body('licensePlate').isLength({ min: 7, max: 7 }).isString(),
@@ -13,3 +13,5 @@ export const validator = [
         next();
     },
 ];
+
+export const putValidator = [param('id').isUUID(), ...validator];
