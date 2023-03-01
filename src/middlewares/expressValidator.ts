@@ -15,3 +15,14 @@ export const validator = [
 ];
 
 export const putValidator = [param('id').isUUID(), ...validator];
+
+export const validatorDriver = [
+    body('name').isString(),
+    (req: Request, res: Response, next: NextFunction) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+        next();
+    },
+];
