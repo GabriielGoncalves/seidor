@@ -34,6 +34,10 @@ Para a execução do projeto de maneira local deve ser executado os seguintes pa
 
 </ul>
 
+### Execução dos testes
+Para a execução dos testes deverá ser executado o seguinte comando: <code> npm run test</code>.
+<br/>
+
 <p>Após a finalização desse processo você terá a aplicação rodando localmente na porta <code>3000</code>, mais especificamente: <code>http://localhost:3000/</code></p>
 <br/>
 
