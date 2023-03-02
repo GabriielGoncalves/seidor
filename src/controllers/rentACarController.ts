@@ -28,9 +28,9 @@ class RentACar {
 
     async finalizeRent(req: Request, res: Response) {
         const service = new RentACarService();
-        const { rentId } = req.params;
+        const { id } = req.params;
 
-        const result = await service.update(rentId);
+        const result = await service.update(id);
 
         return res
             .status(200)

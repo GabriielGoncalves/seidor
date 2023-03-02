@@ -1,20 +1,19 @@
 import { Router } from 'express';
-import { idValidator } from '../middlewares/expressValidator';
+import { idValidator, rentIdValidator } from '../middlewares/expressValidator';
 import rentACarController from '../controllers/rentACarController';
 
 const carRentRouter = Router();
 
 carRentRouter.post(
     '/rent/start/:driverId/:carId',
-    idValidator,
-    idValidator,
+    rentIdValidator,
     rentACarController.rentACar,
 );
 carRentRouter.put(
-    '/rent/finalize/:rentId',
+    '/rent/finalize/:id',
     idValidator,
     rentACarController.finalizeRent,
-); // guardar data de finalização
+);
 carRentRouter.get('/rents', rentACarController.listAllRents);
 
 export default carRentRouter;
