@@ -16,7 +16,6 @@ driverRegistrationRouter.post(
 driverRegistrationRouter.put(
     '/driver/update/:id',
     putValidatorDriver,
-    idValidator,
     new DriverController().update,
 );
 driverRegistrationRouter.delete(

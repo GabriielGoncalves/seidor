@@ -30,7 +30,7 @@ export const validatorDriver = [
 export const putValidatorDriver = [param('id').isUUID(), ...validatorDriver];
 
 export const idValidator = [
-    param('id').isUUID,
+    param('id').isUUID(),
     (req: Request, res: Response, next: NextFunction) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
