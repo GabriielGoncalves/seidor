@@ -27,8 +27,8 @@ Para a execução do projeto de maneira local deve ser executado os seguintes pa
     Para inicializar a aplicação é necessário entrar na pasta do projeto e rodar os comando:
     <br/>
     <code>npm i</code> - para baixar as dependências do projeto<br>
-    <code>npm run migration:run</code><br>
     <code>sudo docker-compose up</code><br>
+    <code>npm run migration:run</code><br>
     <code>npm run dev</code><br>
     </li>
 
