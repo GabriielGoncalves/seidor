@@ -193,3 +193,77 @@ stub.serial('test a "find" method find all rentals', async (t) => {
     );
     t.true(mockFind.calledOnce);
 });
+
+stub.serial(
+    'test a "update" method to finish a rental sucess case',
+    async (t) => {
+        const instance = new RentACarService();
+
+        const rent = {
+            active: true,
+            endRent: '',
+        };
+
+        const mockFindOne = sinon
+            .stub(instance['rentACarRepository'], <any>'findOne')
+            .resolves(rent);
+
+        const mockSave = sinon
+            .stub(instance['rentACarRepository'], <any>'save')
+            .resolves('save');
+
+        const result = await instance.update('rentId');
+
+        t.true(
+            mockFindOne.calledOnceWithExactly({
+                where: {
+                    id: 'rentId',
+                },
+                relations: {
+                    car: true,
+                    driver: true,
+                },
+            }),
+        );
+        t.true(mockFindOne.calledOnce);
+        t.true(mockSave.calledAfter(mockFindOne));
+        t.true(mockSave.calledOnceWithExactly(rent));
+
+        t.deepEqual(result, rent);
+    },
+);
+
+stub.serial(
+    'test a "update" method to finish a rental fail case',
+    async (t) => {
+        const instance = new RentACarService();
+
+        const mockFindOne = sinon
+            .stub(instance['rentACarRepository'], <any>'findOne')
+            .resolves({ active: false });
+
+        const mockSave = sinon
+            .stub(instance['rentACarRepository'], <any>'save')
+            .resolves('save');
+
+        try {
+            await instance.update('rentId');
+        } catch (e) {
+            t.true(e instanceof Error);
+        }
+
+        t.true(
+            mockFindOne.calledOnceWithExactly({
+                where: {
+                    id: 'rentId',
+                },
+                relations: {
+                    car: true,
+                    driver: true,
+                },
+            }),
+        );
+        t.true(mockFindOne.calledOnce);
+        t.true(mockSave.notCalled);
+    },
+);
