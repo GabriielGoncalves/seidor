@@ -7,6 +7,7 @@ const carRentRouter = Router();
 carRentRouter.post(
     '/rent/start/:driverId/:carId',
     idValidator,
+    idValidator,
     rentACarController.rentACar,
 );
 carRentRouter.put(
